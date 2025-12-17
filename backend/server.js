@@ -1,9 +1,12 @@
 const express = require("express");
-const app = express();
 const {connectDB} = require("./config/db");
+const userRoutes = require("./routes/userRoutes");
+const app = express();
 
 
 connectDB();
+
+app.use("/userRoutes" , userRoutes);
 
 app.get("/" , (req, res) =>{
   res.status(200).json("welcome to sites")
