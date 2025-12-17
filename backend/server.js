@@ -6,6 +6,8 @@ const app = express();
 
 connectDB();
 
+app.use(express.json())
+
 app.use("/userRoutes" , userRoutes);
 
 app.get("/" , (req, res) =>{
