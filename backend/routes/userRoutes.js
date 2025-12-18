@@ -1,5 +1,6 @@
 const express = require("express");
 const userModel = require("../model/userModel");
+const jwt = require("jsonwebtoken");
 const usrRoutes = express.Router();
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -42,6 +43,8 @@ usrRoutes.post("/api/auth/login", async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
 
+    const token = jwt.sign({userId: user._id, role: user.role}, 'shhhhh', {expiresIn : '24h'});
+
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -54,7 +57,7 @@ usrRoutes.post("/api/auth/login", async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role
-      }
+      },token
     });
 
   } catch (err) {
