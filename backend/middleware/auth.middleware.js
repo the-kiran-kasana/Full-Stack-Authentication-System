@@ -1,19 +1,27 @@
 var jwt = require('jsonwebtoken');
 
-const  authMiddleware = (req, res,next) => {
-    const token = req.headers?.authorization?.split(" ")[1];
+const  authMiddleware = (role) => {
 
-    if(token){
-      var decoded = jwt.verify(token , 'shhhhh');
-      if(decoded){
-         res.status(201).json({ msg: "successfully  through auth middleware" },decoded);
-         next();
-      }else{
-         res.status(401).json({ msg: "unauthorized ......" });
-      }
-    }else{
-        res.status(401).json({ msg: "not through auth middleware" });
+
+    return (req, res,next) => {
+
+    try{
+        const token = req.headers?.authorization?.split(" ")[1];
+
+           if(token){
+             var decoded = jwt.verify(token , process.env.JWT_SECRET);
+             if(decoded){
+               if(role.includes(decoded.role)){
+                  req.user = decoded;
+                  next();
+               }
+             }else{
+                res.status(403).json({ msg: "unauthorized ......" });
+             }
+           }
+    }catch(err){
+       res.status(401).json({ msg: "Invalid or expired token"});
     }
-}
+}}
 
 module.exports = authMiddleware;
