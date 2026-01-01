@@ -1,0 +1,3 @@
+Hello, my name is Kiran Kasana and this is my Whisper API checking project.
+Now we are trying to check if it is workable or not.
+Thank you for listening.

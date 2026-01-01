@@ -12,14 +12,11 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5050/userRoutes/api/auth/login",
-        { email, password }
-      );
+      const response = await axios.post( "http://localhost:5050/userRoutes/api/auth/login", { email, password }  );
 
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        window.location.href = "/dashboard"; // redirect
+        window.location.href = "/SmartMeetingDashboard"; // redirect
       }
 
       setError("");
@@ -45,6 +42,8 @@ function LoginForm() {
         <button type="submit" className="bg-pink-500 border border-indigo-600 bg-white text-pink-500 py-2 rounded-lg" > Login </button>
 
         {/* Google Login */}
+
+
 
         <button type="button" onClick={() => (window.location.href = "http://localhost:5050/auth/google")}
           className="flex items-center  bg-white justify-center gap-3 border py-2 rounded-lg" >
